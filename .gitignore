@@ -1,0 +1,11 @@
+# Composer
+/vendor/
+composer.lock
+
+# PHPUnit
+.phpunit.result.cache
+coverage.xml
+
+# JetBrains
+.idea
+.DS_Store
