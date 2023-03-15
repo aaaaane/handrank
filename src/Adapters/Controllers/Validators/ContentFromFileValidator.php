@@ -13,7 +13,7 @@ class ContentFromFileValidator
     (
         private readonly string $content,
         private bool            $hasError = false,
-        private string|null     $error = null
+        private array     $error = []
     )
     {
         $this->validate();
@@ -24,21 +24,23 @@ class ContentFromFileValidator
         return $this->hasError;
     }
 
-    public function getError(): ?string
+    public function getError(): ?array
     {
         return $this->error;
     }
 
+    public static function create(string $content): self
+    {
+        return new self($content);
+    }
 
-    private function validate(): self
+    private function validate(): void
     {
         $contentToArray = explode(PHP_EOL, $this->content);
 
-        $this->validateNumberOfCards($contentToArray) === false;
-        $this->validateNumberInCards($contentToArray) === false;
-        $this->validateSuiteInCards($contentToArray) === false;
-
-        return $this;
+        $this->validateNumberOfCards($contentToArray);
+        $this->validateNumberInCards($contentToArray);
+        $this->validateSuiteInCards($contentToArray);
     }
 
     /**
@@ -50,7 +52,7 @@ class ContentFromFileValidator
             $hand = explode(' ', $line);
 
             if (count($hand) !== 5) {
-                $this->error = 'Number of cards invalid in hand: ' . count($hand);
+                $this->error['invalid_number_of_cards'] = 'Number of cards invalid in hand: ' . count($hand);
                 $this->hasError = true;
                 return false;
             }
@@ -127,7 +129,7 @@ class ContentFromFileValidator
     private function numberIsValid(string $number): bool
     {
         if (in_array($number, Number::LIST) === false) {
-            $this->error = 'Number on card not valid: ' . $number;
+            $this->error['invalid_card_number'] = 'Number on card not valid: ' . $number;
             $this->hasError = true;
 
             return false;
@@ -146,7 +148,7 @@ class ContentFromFileValidator
                 return true;
 
             default:
-                $this->error = 'Suite on card not valid: ' . $suite;
+                $this->error['invalid_suite'] = 'Suite on card not valid: ' . $suite;
                 $this->hasError = true;
                 return false;
         }
