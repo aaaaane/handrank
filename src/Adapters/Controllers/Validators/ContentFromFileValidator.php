@@ -9,11 +9,16 @@ use Handrank\Application\Domain\Suite;
 
 class ContentFromFileValidator
 {
+    /** @const string */
+    public const INVALID_CARD_NUMBER = 'invalid_card_number';
+    public const INVALID_NUMBER_OF_CARDS = 'invalid_number_of_cards';
+    public const INVALID_SUITE = 'invalid_suite';
+
     public function __construct
     (
         private readonly string $content,
         private bool            $hasError = false,
-        private array     $error = []
+        private array           $error = []
     )
     {
         $this->validate();
@@ -46,37 +51,33 @@ class ContentFromFileValidator
     /**
      * @param string[] $deck
      */
-    private function validateNumberOfCards(array $deck): bool
+    private function validateNumberOfCards(array $deck): void
     {
         foreach ($deck as $line) {
             $hand = explode(' ', $line);
 
             if (count($hand) !== 5) {
-                $this->error['invalid_number_of_cards'] = 'Number of cards invalid in hand: ' . count($hand);
+                $this->error[self::INVALID_NUMBER_OF_CARDS] = 'Number of cards invalid in hand: ' . count($hand);
                 $this->hasError = true;
-                return false;
+                return;
             }
         }
-
-        return true;
     }
 
     /**
      * @param string[] $deck
      */
-    private function validateNumberInCards(array $deck): bool
+    private function validateNumberInCards(array $deck): void
     {
         foreach ($deck as $hand) {
             $cardNumbers = $this->getCardNumbersFromHand($hand);
 
             foreach ($cardNumbers as $number) {
                 if ($this->numberIsValid($number) === false) {
-                    return false;
+                    return;
                 }
             }
         }
-
-        return true;
     }
 
     private function validateSuiteInCards(array $deck): bool
@@ -129,7 +130,7 @@ class ContentFromFileValidator
     private function numberIsValid(string $number): bool
     {
         if (in_array($number, Number::LIST) === false) {
-            $this->error['invalid_card_number'] = 'Number on card not valid: ' . $number;
+            $this->error[self::INVALID_CARD_NUMBER] = 'Number on card not valid: ' . $number;
             $this->hasError = true;
 
             return false;
@@ -148,7 +149,7 @@ class ContentFromFileValidator
                 return true;
 
             default:
-                $this->error['invalid_suite'] = 'Suite on card not valid: ' . $suite;
+                $this->error[self::INVALID_SUITE] = 'Suite on card not valid: ' . $suite;
                 $this->hasError = true;
                 return false;
         }

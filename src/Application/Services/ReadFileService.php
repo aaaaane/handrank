@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Handrank\Application\Services;
 
-use Exception;
 use Handrank\Application\Domain\Exceptions\FileDoesNotExistException;
 
 class ReadFileService
@@ -16,21 +15,18 @@ class ReadFileService
     {
     }
 
-    public function getContentFromFile()
+    /**
+     * @throws FileDoesNotExistException
+     */
+    public function getContentFromFile(): string
     {
-        try {
-            $fileContent = file_get_contents(self::FILE_PATH);
-        } catch (Exception $exception) {
-            throw new FileDoesNotExistException($exception->getMessage());
+        $fileContent = file_get_contents(self::FILE_PATH);
+
+        if ($fileContent === false) {
+            throw new FileDoesNotExistException('There was an error.');
         }
 
-        $validator = Validator::create($fileContent);
-        if (!$validator->isValid()) {
-            throw new InvalidFileContentException(
-                $validator->error() ?? 'Unknown Error'
-            );
-        }
-        $hands = explode(PHP_EOL, $fileContent);
+        return $fileContent;
     }
 
 }

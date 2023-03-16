@@ -19,6 +19,7 @@ class ContentFromFileValidatorTest extends TestCase
         $contentFromFileValidator = ContentFromFileValidator::create($contentFromFile);
 
         $this->assertTrue(empty($contentFromFileValidator->getError()));
+        $this->assertFalse($contentFromFileValidator->hasError());
     }
 
     /** @test */
@@ -28,7 +29,8 @@ class ContentFromFileValidatorTest extends TestCase
 
         $contentFromFileValidator = ContentFromFileValidator::create($contentFromFile);
 
-        $this->assertFalse(empty($contentFromFileValidator->getError()['invalid_number_of_cards']));
+        $this->assertFalse(empty($contentFromFileValidator->getError()[ContentFromFileValidator::INVALID_NUMBER_OF_CARDS]));
+        $this->assertTrue($contentFromFileValidator->hasError());
     }
 
     /** @test */
@@ -38,7 +40,8 @@ class ContentFromFileValidatorTest extends TestCase
 
         $contentFromFileValidator = ContentFromFileValidator::create($contentFromFile);
 
-        $this->assertFalse(empty($contentFromFileValidator->getError()['invalid_card_number']));
+        $this->assertFalse(empty($contentFromFileValidator->getError()[ContentFromFileValidator::INVALID_CARD_NUMBER]));
+        $this->assertTrue($contentFromFileValidator->hasError());
     }
 
     /** @test */
@@ -48,6 +51,7 @@ class ContentFromFileValidatorTest extends TestCase
 
         $contentFromFileValidator = ContentFromFileValidator::create($contentFromFile);
 
-        $this->assertFalse(empty($contentFromFileValidator->getError()['invalid_suite']));
+        $this->assertFalse(empty($contentFromFileValidator->getError()[ContentFromFileValidator::INVALID_SUITE]));
+        $this->assertTrue($contentFromFileValidator->hasError());
     }
 }
