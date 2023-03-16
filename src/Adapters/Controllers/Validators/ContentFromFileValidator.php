@@ -6,9 +6,14 @@ namespace Handrank\Adapters\Controllers\Validators;
 
 use Handrank\Application\Domain\Number;
 use Handrank\Application\Domain\Suite;
+use Handrank\Traits\CanGetNumbersForCards;
+use Handrank\Traits\CanGetSuitesForCards;
 
 class ContentFromFileValidator
 {
+
+    use CanGetNumbersForCards, CanGetSuitesForCards;
+
     /** @const string */
     public const INVALID_CARD_NUMBER = 'invalid_card_number';
     public const INVALID_NUMBER_OF_CARDS = 'invalid_number_of_cards';
@@ -94,38 +99,6 @@ class ContentFromFileValidator
 
         return true;
     }
-
-    /**
-     * @param string $hand
-     * @return string[]
-     */
-    private function getCardNumbersFromHand(string $hand): array
-    {
-        $arrayHand = explode(' ', $hand);
-        $numbers = [];
-
-        foreach ($arrayHand as $card) {
-            $numbers[] = mb_substr($card, 0, -1);
-        }
-
-        return $numbers;
-    }
-
-    /**
-     * @param string $hand
-     */
-    private function getCardSuitesFromHand(string $hand)
-    {
-        $arrayHand = explode(' ', $hand);
-        $suites = [];
-
-        foreach ($arrayHand as $card) {
-            $suites[] = mb_substr($card, -1, 1, 'utf-8');
-        }
-
-        return $suites;
-    }
-
 
     private function numberIsValid(string $number): bool
     {

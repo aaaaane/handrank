@@ -25,4 +25,30 @@ class Card
     {
         return $this->suite;
     }
+
+    /**
+     * @param Card[] $cards
+     * @return string[]
+     */
+    public static function getNumbersFromCards(array $cards): array
+    {
+        $numbers = [];
+
+        foreach ($cards as $card) {
+            $numbers[] = $card->number()->number();
+        }
+
+        return $numbers;
+    }
+
+    public static function getSuitesFromCards(array $cards): array
+    {
+        $suites = [];
+
+        foreach ($cards as $card) {
+            $suites[] = $card->suite()->value;
+        }
+
+        return $suites;
+    }
 }

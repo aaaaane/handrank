@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Handrank\Application\Domain;
 
+
 class Number
 {
     /** @const string */
@@ -20,10 +21,10 @@ class Number
      */
     private const RANKS_TO_NUMBER =
         [
+            self::ACE => 1,
             self::KING => 13,
             self::QUEEN => 12,
             self::JACK => 11,
-            self::ACE => 1,
         ];
 
     /**
@@ -31,10 +32,10 @@ class Number
      */
     public const LIST =
         [
-            self::JACK,
-            self::QUEEN,
-            self::KING,
             self::ACE,
+            self::KING,
+            self::QUEEN,
+            self::JACK,
             10,
             9,
             8,
@@ -55,12 +56,12 @@ class Number
         return $this->number;
     }
 
-    public function ranktoNumber(): int
+    public static function ranktoNumber(string|int $rank): int
     {
-        if (gettype($this->number) !== 'integer') {
-            return self::RANKS_TO_NUMBER[$this->number];
+        if (gettype($rank) !== 'integer') {
+            return self::RANKS_TO_NUMBER[$rank];
         }
 
-        return $this->number;
+        return $rank;
     }
 }
