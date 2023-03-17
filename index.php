@@ -10,6 +10,11 @@ use Handrank\Application\Services\SortDeckService;
 require "./vendor/autoload.php";
 
 // The default file path is storage/input.txt
+if (isset($argv[1]) === false) {
+    echo "The program needs the file path to execute. Try with: php index.php storage/input.txt";
+    die();
+}
+
 $filePath = $argv[1];
 
 $sortDeckService = new SortDeckService(new AssignRankToHandService());
