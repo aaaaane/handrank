@@ -100,7 +100,7 @@ class ContentFromFileValidator
         return true;
     }
 
-    private function numberIsValid(string $number): bool
+    private function numberIsValid(string|int $number): bool
     {
         if (in_array($number, Number::LIST) === false) {
             $this->error[self::INVALID_CARD_NUMBER] = 'Number on card not valid: ' . $number;

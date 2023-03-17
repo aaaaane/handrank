@@ -25,13 +25,13 @@ class SortDeckService
             $ruleResponses[] = $this->assignRankToHandService->runRulesValidation($hand);
         }
 
+        $orderedHandsResponse = $this->orderHands($ruleResponses);
+        ksort($orderedHandsResponse);
+        $orderedHands = $this->assembleHands($orderedHandsResponse);
 
-        $orderedHands = $this->orderHands($ruleResponses);
+        $orderedDeck = new Deck($orderedHands);
 
-        //here order the orderedHands array based on the rank number (es el numero del indice)
-        // create a deck based on these hands and create a dto from the deck and return it
-        var_dump($orderedHands);
-        die();
+        return DeckDto::createFromDeck($orderedDeck);
     }
 
     /**
@@ -47,5 +47,17 @@ class SortDeckService
         }
 
         return $orderedHands;
+    }
+
+    private function assembleHands(array $orderedHands): array
+    {
+        $sortedHands = [];
+        foreach ($orderedHands as $hands) {
+            foreach ($hands as $hand) {
+                $sortedHands[] = $hand;
+            }
+        }
+
+        return $sortedHands;
     }
 }

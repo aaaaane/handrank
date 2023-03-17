@@ -9,7 +9,7 @@ use Handrank\Application\Domain\Exceptions\FileDoesNotExistException;
 class ReadFileService
 {
     /** @const string */
-    private const FILE_PATH = '../../../storage/input.txt';
+    private const FILE_PATH = __DIR__ . '\..\..\..\storage\input.txt';
 
     public function __construct()
     {

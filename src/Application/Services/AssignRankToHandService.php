@@ -80,8 +80,6 @@ class AssignRankToHandService
             return $pairResponse;
         }
 
-        $highCardResponse = (new HighCard())->validate($hand);
-
-        return $highCardResponse;
+        return (new HighCard())->validate($hand);
     }
 }
