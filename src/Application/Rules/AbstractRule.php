@@ -9,8 +9,7 @@ use Handrank\Application\Rules\Contracts\Rule as RuleContract;
 
 abstract class AbstractRule implements RuleContract
 {
-
-    public function __construct(protected array $ruleResponse = [])
+    public function __construct()
     {
     }
 

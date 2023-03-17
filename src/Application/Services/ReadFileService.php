@@ -28,5 +28,4 @@ class ReadFileService
 
         return $fileContent;
     }
-
 }

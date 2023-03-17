@@ -19,11 +19,6 @@ $mainController = new MainController
 
 $response = $mainController->sortHands();
 
-if ($response->status() !== 200) {
-    echo $response->errorMessage();
-    die();
-}
-
 if ($response->status() === 200) {
     echo '<b>Initial deck</b><br>';
     echo $response->initialDeck();
