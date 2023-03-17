@@ -116,7 +116,7 @@ class DeckDto
             $deckToString .= $handToString . "\n";
         }
 
-        return nl2br($deckToString);
+        return $deckToString;
     }
 
 

@@ -14,7 +14,7 @@ class ReadFileServiceTest extends TestCase
     /** @test */
     public function getsContentFromFile()
     {
-        $readFileService = new ReadFileService();
+        $readFileService = new ReadFileService(__DIR__ . '\..\..\..\storage\input.txt');
 
         $contentFromFile = $readFileService->getContentFromFile();
 
@@ -26,9 +26,8 @@ class ReadFileServiceTest extends TestCase
     {
         $this->expectException(FileDoesNotExistException::class);
 
-        $readFileServiceMock = $this->createMock(ReadFileService::class);
+        $readFileService = new ReadFileService(__DIR__ . '\..\..\..\storage\hey.txt');
 
-        $readFileServiceMock->method("getContentFromFile")->willThrowException(new FileDoesNotExistException());
-        $readFileServiceMock->getContentFromFile();
+        $readFileService->getContentFromFile();
     }
 }

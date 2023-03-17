@@ -9,20 +9,23 @@ use Handrank\Application\Services\SortDeckService;
 
 require "./vendor/autoload.php";
 
+// The default file path is storage/input.txt
+$filePath = $argv[1];
+
 $sortDeckService = new SortDeckService(new AssignRankToHandService());
 
 $mainController = new MainController
 (
-    readFileService: new ReadFileService(),
+    readFileService: new ReadFileService($filePath),
     sortDeckService: $sortDeckService
 );
 
 $response = $mainController->sortHands();
 
 if ($response->status() === 200) {
-    echo '<b>Initial deck</b><br>';
+    echo "Initial deck\n";
     echo $response->initialDeck();
-    echo '<br><b>Sorted deck</b><br>';
+    echo "\nSorted deck\n";
     echo $response->sortedDeck();
 } else {
     echo $response->status();
