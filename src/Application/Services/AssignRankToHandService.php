@@ -19,67 +19,34 @@ use Handrank\Application\Rules\TwoPair;
 
 class AssignRankToHandService
 {
-
     public function __construct()
     {
     }
 
     public function runRulesValidation(Hand $hand): RuleResponse
     {
-        $royalFlushResponse = (new RoyalFlush())->validate($hand);
+        $rulesRanking =
+            [
+                new RoyalFlush(),
+                new StraightFlush(),
+                new FourOfAKind(),
+                new FullHouse(),
+                new Flush(),
+                new Straight(),
+                new ThreeOfAKind(),
+                new TwoPair(),
+                new Pair(),
+                new HighCard(),
+            ];
 
-        if ($royalFlushResponse->getMatches() === true) {
-            return $royalFlushResponse;
+        foreach ($rulesRanking as $ruleRanking) {
+            $validationResponse = $ruleRanking->validate($hand);
+
+            if ($validationResponse->getMatches() === true) {
+                return $validationResponse;
+            }
         }
 
-        $straightFlushResponse = (new StraightFlush())->validate($hand);
-
-        if ($straightFlushResponse->getMatches() === true) {
-            return $straightFlushResponse;
-        }
-
-        $fourOfAKindResponse = (new FourOfAKind())->validate($hand);
-
-        if ($fourOfAKindResponse->getMatches() === true) {
-            return $fourOfAKindResponse;
-        }
-
-        $fullHouseResponse = (new FullHouse())->validate($hand);
-
-        if ($fullHouseResponse->getMatches() === true) {
-            return $fullHouseResponse;
-        }
-
-        $flushResponse = (new Flush())->validate($hand);
-
-        if ($flushResponse->getMatches() === true) {
-            return $flushResponse;
-        }
-
-        $straightResponse = (new Straight())->validate($hand);
-
-        if ($straightResponse->getMatches() === true) {
-            return $straightResponse;
-        }
-
-        $threeOfAKindResponse = (new ThreeOfAKind())->validate($hand);
-
-        if ($threeOfAKindResponse->getMatches() === true) {
-            return $threeOfAKindResponse;
-        }
-
-        $twoPairResponse = (new TwoPair())->validate($hand);
-
-        if ($twoPairResponse->getMatches() === true) {
-            return $twoPairResponse;
-        }
-
-        $pairResponse = (new Pair())->validate($hand);
-
-        if ($pairResponse->getMatches() === true) {
-            return $pairResponse;
-        }
-
-        return (new HighCard())->validate($hand);
+        return $validationResponse;
     }
 }

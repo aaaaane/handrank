@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace Handrank\Application\Dto;
 
+use Handrank\App\Helpers\CardValuesHelper;
 use Handrank\Application\Domain\Card;
 use Handrank\Application\Domain\Deck;
-use Handrank\Traits\CanGetNumbersForCards;
-use Handrank\Traits\CanGetSuitesForCards;
 
-class DeckDto
+class DeckDto extends CardValuesHelper
 {
-    use CanGetNumbersForCards, CanGetSuitesForCards;
-
     /**
      * @const string
      */
@@ -118,6 +115,4 @@ class DeckDto
 
         return $deckToString;
     }
-
-
 }

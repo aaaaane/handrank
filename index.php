@@ -7,11 +7,11 @@ use Handrank\Application\Services\AssignRankToHandService;
 use Handrank\Application\Services\ReadFileService;
 use Handrank\Application\Services\SortDeckService;
 
-require "./vendor/autoload.php";
+require "." . DIRECTORY_SEPARATOR . "vendor" . DIRECTORY_SEPARATOR . "autoload.php";
 
 // The default file path is storage/input.txt
 if (isset($argv[1]) === false) {
-    echo "The program needs the file path to execute. Try with: php index.php storage/input.txt";
+    echo "The program needs the file path to execute. Try with: php index.php storage" . DIRECTORY_SEPARATOR  . "input.txt";
     die();
 }
 
@@ -36,6 +36,3 @@ if ($response->status() === 200) {
     echo $response->status();
     echo $response->errorMessage();
 }
-
-
-

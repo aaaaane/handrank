@@ -2,9 +2,8 @@
 
 declare(strict_types=1);
 
-namespace Handrank\Traits;
-
-trait CanGetNumbersForCards
+namespace Handrank\App\Helpers;
+abstract class CardValuesHelper
 {
     /**
      * @return string[]
@@ -21,11 +20,7 @@ trait CanGetNumbersForCards
         return $numbers;
     }
 
-    /**
-     * @param string $card
-     * @return string|int
-     */
-    protected function getNumbersForCard(string $card)
+    protected function getNumbersForCard(string $card): string|int
     {
         $number = mb_substr($card, 0, -1);
 
@@ -34,5 +29,22 @@ trait CanGetNumbersForCards
         }
 
         return $number;
+    }
+
+    protected function getCardSuitesFromHand(string $hand): array
+    {
+        $arrayHand = explode(' ', $hand);
+        $suites = [];
+
+        foreach ($arrayHand as $card) {
+            $suites[] = $this->getSuiteForCard($card);
+        }
+
+        return $suites;
+    }
+
+    protected function getSuiteForCard(string $card): string
+    {
+        return mb_substr($card, -1, 1, 'utf-8');
     }
 }

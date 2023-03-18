@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace Handrank\Adapters\Controllers\Validators;
 
+use Handrank\App\Helpers\CardValuesHelper;
 use Handrank\Application\Domain\Number;
 use Handrank\Application\Domain\Suite;
-use Handrank\Traits\CanGetNumbersForCards;
-use Handrank\Traits\CanGetSuitesForCards;
 
-class ContentFromFileValidator
+class ContentFromFileValidator extends CardValuesHelper
 {
-
-    use CanGetNumbersForCards, CanGetSuitesForCards;
-
     /** @const string */
     public const INVALID_CARD_NUMBER = 'invalid_card_number';
     public const INVALID_NUMBER_OF_CARDS = 'invalid_number_of_cards';
