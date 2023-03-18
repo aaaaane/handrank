@@ -5,13 +5,11 @@ declare(strict_types=1);
 namespace Handrank\Application\Services;
 
 use Handrank\Application\Domain\Exceptions\FileDoesNotExistException;
+use Throwable;
 
-class ReadFileService
+readonly class ReadFileService
 {
-    /** @const string */
-    private const FILE_PATH = '../../../storage/input.txt';
-
-    public function __construct()
+    public function __construct(private string $filePath)
     {
     }
 
@@ -20,7 +18,11 @@ class ReadFileService
      */
     public function getContentFromFile(): string
     {
-        $fileContent = file_get_contents(self::FILE_PATH);
+        try {
+            $fileContent = file_get_contents($this->filePath());
+        } catch (Throwable $exception) {
+            throw new FileDoesNotExistException($exception->getMessage());
+        }
 
         if ($fileContent === false) {
             throw new FileDoesNotExistException('There was an error.');
@@ -29,4 +31,8 @@ class ReadFileService
         return $fileContent;
     }
 
+    public function filePath(): string
+    {
+        return $this->filePath;
+    }
 }

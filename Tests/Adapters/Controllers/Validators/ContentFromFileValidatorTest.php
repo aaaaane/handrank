@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-
 namespace Handrank\Tests\Adapters\Controllers\Validators;
 
 use Handrank\Adapters\Controllers\Validators\ContentFromFileValidator;
@@ -51,7 +50,7 @@ class ContentFromFileValidatorTest extends TestCase
 
         $contentFromFileValidator = ContentFromFileValidator::create($contentFromFile);
 
-        $this->assertFalse(empty($contentFromFileValidator->getError()[ContentFromFileValidator::INVALID_SUITE]));
+        $this->assertNotEmpty($contentFromFileValidator->getError()[ContentFromFileValidator::INVALID_SUITE]);
         $this->assertTrue($contentFromFileValidator->hasError());
     }
 }
